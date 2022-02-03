@@ -9,4 +9,17 @@ class User < ApplicationRecord
 
   has_many :followings, through: :relationships, source: :followed
   has_many :follower, through: :reverse_of_relationships, source: :follower
+
+  def follow(user)
+    relationships.create(followed_id: user.id)
+  end
+
+  def unfollow(user)
+    relationships.find_by(followed_id: user.id).destroy
+  end
+
+  def folowings?(user)
+    followings.include?(user)
+  end
+
 end
